@@ -38,8 +38,84 @@
             width: 100%;
         }
 
-        header {
-            margin-bottom: 2rem;
+        /* Gaya untuk Menu Timbul Kategori */
+        .kategori-popup {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            width: 320px;
+            background: var(--card-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-bento);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(139, 92, 246, 0.2);
+            padding: 1rem;
+            z-index: 100;
+            
+            /* Animasi Tersembunyi pada asalnya */
+            opacity: 0;
+            transform: translateY(-15px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Kelas aktif apabila butang ditekan */
+        .kategori-popup.aktif {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .kategori-header {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .kategori-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            text-decoration: none;
+            border-radius: var(--radius-btn);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .kategori-item:hover {
+            background: var(--card-hover);
+            transform: translateX(5px);
+        }
+
+        .ikon-kategori {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.2rem;
+        }
+
+        .teks-kategori {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .teks-kategori strong {
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .teks-kategori span {
+            color: var(--text-dim);
+            font-size: 0.8rem;
         }
 
         header h1 {
@@ -229,9 +305,45 @@
 <body>
 
     <div class="dashboard-wrapper">
-        <header>
-            <h1>Sistem Dokumen Ketick</h1>
-            <p>Paparan Utama Perniagaan Anda</p>
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; position: relative;">
+            <div>
+                <h1>Sistem Dokumen Ketick</h1>
+                <p>Paparan Utama Perniagaan Anda</p>
+            </div>
+            
+            <div style="position: relative;">
+                <button id="btnKategori" class="flux-btn" style="padding: 0.8rem 1.5rem; display: flex; align-items: center; gap: 10px; margin-top: 0;">
+                    <span style="font-size: 1.2rem;">⌘</span> Semua Kategori
+                </button>
+        
+                <div id="menuKategori" class="kategori-popup">
+                    <div class="kategori-header">Pilih Hab Kategori</div>
+                    
+                    <a href="PTR.html" class="kategori-item">
+                        <span class="ikon-kategori" style="background: rgba(0, 255, 194, 0.2); color: var(--flux-cyan);">📁</span>
+                        <div class="teks-kategori">
+                            <strong>Main 1: PTR</strong>
+                            <span>Rekod Transaksi Utama (Invois, PO...)</span>
+                        </div>
+                    </a>
+        
+                    <a href="#" class="kategori-item">
+                        <span class="ikon-kategori" style="background: rgba(139, 92, 246, 0.2); color: var(--flux-purple);">📊</span>
+                        <div class="teks-kategori">
+                            <strong>Main 2: Laporan</strong>
+                            <span>Analisis jualan & prestasi</span>
+                        </div>
+                    </a>
+        
+                    <a href="#" class="kategori-item">
+                        <span class="ikon-kategori" style="background: rgba(255, 51, 102, 0.2); color: #FF3366;">⚙️</span>
+                        <div class="teks-kategori">
+                            <strong>Main 3: Tetapan</strong>
+                            <span>Profil syarikat & integrasi</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </header>
 
         <div class="bento-grid">
@@ -308,6 +420,7 @@
     </div>
 
     <script>
+        // Animasi Glow pada Bento Grid
         document.querySelectorAll('.bento-card').forEach(card => {
             const glow = card.querySelector('.glow-effect');
             
@@ -320,6 +433,23 @@
                 glow.style.left = `${x - 75}px`;
                 glow.style.top = `${y - 75}px`;
             });
+        });
+
+        // Fungsi Butang Interaktif Kategori
+        const btnKategori = document.getElementById('btnKategori');
+        const menuKategori = document.getElementById('menuKategori');
+
+        // Buka/Tutup menu bila ditekan
+        btnKategori.addEventListener('click', function(e) {
+            e.stopPropagation(); // Elak dari mengganggu klik lain
+            menuKategori.classList.toggle('aktif');
+        });
+
+        // Tutup menu jika pengguna klik di luar kawasan menu
+        document.addEventListener('click', function(e) {
+            if (!menuKategori.contains(e.target) && e.target !== btnKategori) {
+                menuKategori.classList.remove('aktif');
+            }
         });
     </script>
 </body>
