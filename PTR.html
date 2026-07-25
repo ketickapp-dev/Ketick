@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ketick - Primary Transaction Records</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --card-surface: rgba(255, 255, 255, 0.03);
+            --card-hover: rgba(255, 255, 255, 0.06);
+            --flux-cyan: #00FFC2;
+            --flux-purple: #8B5CF6;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --radius-bento: 32px;
+            --radius-btn: 16px;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top center, rgba(139, 92, 246, 0.1), transparent 50%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .ptr-wrapper {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, var(--flux-cyan), var(--flux-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-btn);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--text-main);
+            border-color: var(--flux-cyan);
+            background: rgba(0, 255, 194, 0.1);
+        }
+
+        /* Bento Grid untuk Menu Navigasi */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Kad Navigasi */
+        .menu-card {
+            background: var(--card-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-bento);
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+            min-height: 150px;
+        }
+
+        .menu-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-8px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                        0 0 30px rgba(139, 92, 246, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--flux-cyan), #00B8FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Glow Effect Dinamik (Mouse Follower) */
+        .glow-effect {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .menu-card:hover .glow-effect {
+            opacity: 1;
+        }
+
+        .content-z {
+            position: relative;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="ptr-wrapper">
+        <header>
+            <div>
+                <h1>Kategori: PTR</h1>
+                <p style="color: var(--text-dim); margin: 0.5rem 0 0 0;">Primary Transaction Records</p>
+            </div>
+            <a href="dashboard.html" class="back-btn">← Utama</a>
+        </header>
+
+        <div class="bento-grid">
+            
+            <a href="modul-quotation.html" class="menu-card">
+                <div class="glow-effect"></div>
+                <div class="content-z">
+                    <div class="card-icon">01</div>
+                    <h2 class="card-title">Sebut Harga (Quotation)</h2>
+                    <p class="card-desc">Cipta dokumen tawaran awal harga perkhidmatan atau produk kepada pelanggan berpotensi.</p>
+                </div>
+            </a>
+
+            <a href="modul-invois.html" class="menu-card" style="border-color: rgba(0, 255, 194, 0.2);">
+                <div class="glow-effect" style="background: radial-gradient(circle, rgba(0,255,194,0.15) 0%, transparent 70%);"></div>
+                <div class="content-z">
+                    <div class="card-icon" style="background: linear-gradient(135deg, var(--flux-purple), #C084FC); -webkit-background-clip: text;">02</div>
+                    <h2 class="card-title">Invois (Invoice)</h2>
+                    <p class="card-desc">Hantar tuntutan bayaran rasmi kepada pelanggan selepas persetujuan atau penghantaran selesai.</p>
+                </div>
+            </a>
+
+            <a href="modul-receipt.html" class="menu-card">
+                <div class="glow-effect"></div>
+                <div class="content-z">
+                    <div class="card-icon">03</div>
+                    <h2 class="card-title">Resit (Receipt)</h2>
+                    <p class="card-desc">Jana bukti rasmi penerimaan bayaran yang telah dijelaskan oleh pelanggan.</p>
+                </div>
+            </a>
+
+            <a href="modul-po.html" class="menu-card">
+                <div class="glow-effect"></div>
+                <div class="content-z">
+                    <div class="card-icon">04</div>
+                    <h2 class="card-title">Pesanan Belian (PO)</h2>
+                    <p class="card-desc">Keluarkan permintaan rasmi untuk pembelian stok bahan atau perkhidmatan daripada pembekal.</p>
+                </div>
+            </a>
+
+            <a href="modul-do.html" class="menu-card">
+                <div class="glow-effect"></div>
+                <div class="content-z">
+                    <div class="card-icon">05</div>
+                    <h2 class="card-title">Nota Penghantaran (DO)</h2>
+                    <p class="card-desc">Rekodkan pengesahan bahawa barangan fizikal telah selamat dihantar dan diterima oleh pelanggan.</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.menu-card').forEach(card => {
+            const glow = card.querySelector('.glow-effect');
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                glow.style.left = `${x - 100}px`;
+                glow.style.top = `${y - 100}px`;
+            });
+        });
+    </script>
+</body>
+</html>
