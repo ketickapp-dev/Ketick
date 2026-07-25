@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ketick - Dashboard Sistem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Tetapan Asas & Tema Flux Edition */
+        :root {
+            --bg-dark: #09090b;
+            --card-surface: rgba(255, 255, 255, 0.03);
+            --card-hover: rgba(255, 255, 255, 0.06);
+            --flux-cyan: #00FFC2;
+            --flux-purple: #8B5CF6;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --radius-bento: 32px;
+            --radius-btn: 16px;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(0, 255, 194, 0.05), transparent 40%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-main), var(--text-dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-dim);
+            margin-top: 0.5rem;
+        }
+
+        /* Struktur Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 200px;
+            gap: 1.5rem;
+        }
+
+        /* Kad Bento Asas */
+        .bento-card {
+            background: var(--card-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-bento);
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            
+            /* Micro Interaction: Transisi Lancar */
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+
+        /* Micro Interaction: Hover & Active (Klik) */
+        .bento-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(0, 255, 194, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                        0 0 20px rgba(0, 255, 194, 0.1);
+        }
+
+        .bento-card:active {
+            transform: scale(0.97);
+        }
+
+        /* Saiz Kad Bento (Bento Sizing) */
+        .card-large {
+            grid-column: span 2;
+            grid-row: span 2;
+            justify-content: center;
+        }
+        
+        .card-wide {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+
+        .card-tall {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        .card-small {
+            grid-column: span 1;
+            grid-row: span 1;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Elemen Dalaman Kad */
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--flux-cyan), #00B8FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+        }
+
+        /* Butang Tindakan Pantas */
+        .flux-btn {
+            background: linear-gradient(135deg, var(--flux-purple), #C084FC);
+            border: none;
+            border-radius: var(--radius-btn);
+            padding: 1rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .flux-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Glow Effect Dinamik (Mouse Follower) menggunakan JS */
+        .glow-effect {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .bento-card:hover .glow-effect {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Senarai Dokumen Terkini */
+        .doc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 1rem;
+        }
+
+        .doc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .doc-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsif untuk skrin kecil */
+        @media (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card-large, .card-wide { grid-column: span 2; }
+            .card-tall { grid-row: span 1; grid-column: span 2; }
+        }
+
+        @media (max-width: 600px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-large, .card-wide, .card-tall, .card-small {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <header>
+            <h1>Sistem Dokumen Ketick</h1>
+            <p>Paparan Utama Perniagaan Anda</p>
+        </header>
+
+        <div class="bento-grid">
+            
+            <div class="bento-card card-large">
+                <div class="glow-effect"></div>
+                <div class="card-content">
+                    <h2 class="card-title" style="font-size: 1.8rem;">Selamat Kembali!</h2>
+                    <p class="card-subtitle" style="margin-bottom: 2rem; font-size: 1rem;">Uruskan Invois, Sebut Harga, dan Resit anda dengan pantas menggunakan gaya Flux.</p>
+                    
+                    <button class="flux-btn" style="width: max-content;">+ Cipta Invois Baharu</button>
+                </div>
+            </div>
+
+            <div class="bento-card card-small">
+                <div class="glow-effect"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Jualan Bulan Ini</h3>
+                    <p class="card-value">RM 14K</p>
+                    <p class="card-subtitle">+12% dari bulan lepas</p>
+                </div>
+            </div>
+
+            <div class="bento-card card-small" style="border-color: rgba(255, 50, 100, 0.2);">
+                <div class="glow-effect"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Tertunggak</h3>
+                    <p class="card-value" style="background: linear-gradient(135deg, #FF3366, #FF9933); -webkit-background-clip: text;">RM 2.5K</p>
+                    <p class="card-subtitle">3 Invois belum dibayar</p>
+                </div>
+            </div>
+
+            <div class="bento-card card-tall">
+                <div class="glow-effect"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Dokumen Terkini</h3>
+                    <ul class="doc-list">
+                        <li class="doc-item">
+                            <span>INV-2026-001</span>
+                            <span style="color: var(--flux-cyan);">Dibayar</span>
+                        </li>
+                        <li class="doc-item">
+                            <span>QUO-2026-045</span>
+                            <span style="color: var(--text-dim);">Dihantar</span>
+                        </li>
+                        <li class="doc-item">
+                            <span>INV-2026-002</span>
+                            <span style="color: #FF3366;">Tertunggak</span>
+                        </li>
+                        <li class="doc-item">
+                            <span>REC-2026-012</span>
+                            <span style="color: var(--flux-cyan);">Selesai</span>
+                        </li>
+                        <li class="doc-item">
+                            <span>QUO-2026-046</span>
+                            <span style="color: var(--text-dim);">Draf</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bento-card card-wide" style="justify-content: center;">
+                <div class="glow-effect"></div>
+                <div class="card-content" style="flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div>
+                        <h3 class="card-title">Sebut Harga Pantas</h3>
+                        <p class="card-subtitle">Hantar tawaran harga kepada pelanggan dalam beberapa klik.</p>
+                    </div>
+                    <button class="flux-btn" style="background: linear-gradient(135deg, var(--flux-cyan), #0088FF); color: #000;">Cipta Sebut Harga</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.bento-card').forEach(card => {
+            const glow = card.querySelector('.glow-effect');
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Menyelaraskan posisi glow supaya berada di tengah kursor
+                glow.style.left = `${x - 75}px`;
+                glow.style.top = `${y - 75}px`;
+            });
+        });
+    </script>
+</body>
+</html>
